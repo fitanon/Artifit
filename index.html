@@ -203,7 +203,7 @@
         window.onload = function() {
             const savedCount = localStorage.getItem('workoutCount');
             if (savedCount) {
-                count = parseInt(savedCount);
+                count = parseInt(savedCount, 10);
                 updateCounter();
             }
         };
