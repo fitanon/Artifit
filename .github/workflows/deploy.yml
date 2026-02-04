@@ -3,8 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - main  # Deploy on pushes to main branch
+  workflow_dispatch:  # Allow manual deployment
 
 permissions:
   contents: read
@@ -31,7 +31,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '.'  # Deploy all files; .git and .github are automatically excluded
           
       - name: Deploy to GitHub Pages
         id: deployment
