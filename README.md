@@ -1,78 +1,35 @@
 # Artifit
-All in one client resource for The Fit Clinic
+
+All-in-one client portal for The Fit Clinic.
 
 ## 🌐 Live Site
-Visit the interactive portal at: **https://artifit.fitclinic.io**
+
+**https://artifit.fitclinic.io**
+
+## Current Status
+
+The previous placeholder portal has been rolled back. A minimal maintenance page is currently deployed while the new client portal is prepared.
 
 ## 📦 Deployment
 
-This project is automatically deployed to GitHub Pages using GitHub Actions. The deployment workflow runs on every push to the `main` branch.
+The site deploys automatically to GitHub Pages via GitHub Actions on every push to `main`.
 
-### GitHub Pages Setup
-1. The site is hosted on GitHub Pages
-2. Custom domain: `artifit.fitclinic.io`
-3. Automatic deployment via GitHub Actions workflow
+- Custom domain: `artifit.fitclinic.io`
+- Source: GitHub Actions workflow (`.github/workflows/deploy.yml`)
+- DNS documentation: [DNS_SETUP.md](DNS_SETUP.md)
 
-### DNS Configuration
+## Adding the New Portal
 
-To route the custom domain `artifit.fitclinic.io` to GitHub Pages, configure the following DNS records at your DNS provider:
+To deploy the updated React/Vite client portal:
 
-#### Option 1: Using A Records (Recommended)
-Add the following A records for `artifit.fitclinic.io`:
-```
-185.199.108.153
-185.199.109.153
-185.199.110.153
-185.199.111.153
-```
-
-#### Option 2: Using CNAME Record
-If using a subdomain, add a CNAME record:
-```
-artifit.fitclinic.io -> fitanon.github.io
-```
-
-### DNS Setup Steps
-1. Log in to your DNS provider (e.g., Cloudflare, GoDaddy, Route53)
-2. Navigate to DNS settings for `fitclinic.io`
-3. Add one of the following:
-   - **A Records**: Point `artifit` subdomain to GitHub Pages IPs (185.199.108-111.153)
-   - **CNAME Record**: Point `artifit` subdomain to `fitanon.github.io`
-4. Wait for DNS propagation (can take up to 48 hours, usually much faster)
-5. Verify by visiting https://artifit.fitclinic.io
-
-### Enabling HTTPS
-GitHub Pages automatically provides free HTTPS with Let's Encrypt once:
-1. DNS records are properly configured
-2. DNS propagation is complete
-3. You enable "Enforce HTTPS" in repository Settings > Pages
-
-## 🚀 Features
-
-The interactive portal includes:
-- 📊 Workout counter with local storage persistence
-- 💪 Feature cards for various fitness services
-- 🎨 Modern, responsive design
-- ✨ Interactive elements with smooth animations
-
-## 🛠️ Development
-
-To run locally:
-1. Clone the repository
-2. Open `index.html` in a web browser
-3. No build process required - pure HTML/CSS/JavaScript
+1. Replace `index.html` and add project files (`package.json`, `vite.config.js`, `tailwind.config.js`, `postcss.config.js`, `src/` directory)
+2. Update the deploy workflow to include a build step (`npm ci && npm run build`)
+3. Push to `main` — GitHub Actions will build and deploy automatically
 
 ## 📝 Repository Settings
 
-Ensure the following settings are configured in GitHub:
-1. Go to Settings > Pages
-2. Source: GitHub Actions
-3. Custom domain: `artifit.fitclinic.io`
-4. Enforce HTTPS: ✓ (enable after DNS is configured)
+Ensure the following are configured in GitHub:
 
-## 🔄 Updating the Site
-
-1. Make changes to `index.html` or other files
-2. Commit and push to the `main` branch
-3. GitHub Actions will automatically deploy the changes
-4. Changes will be live in a few minutes
+1. Settings → Pages → Source: **GitHub Actions**
+2. Settings → Pages → Custom domain: **artifit.fitclinic.io**
+3. Settings → Pages → Enforce HTTPS: ✓
