@@ -1,215 +1,641 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artifit - The Fit Clinic</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 800px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        
-        h1 {
-            color: #667eea;
-            margin-bottom: 10px;
-            text-align: center;
-            font-size: 2.5em;
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.2em;
-        }
-        
-        .interactive-section {
-            margin: 30px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 10px 5px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .counter {
-            font-size: 3em;
-            text-align: center;
-            margin: 20px 0;
-            color: #667eea;
-            font-weight: bold;
-        }
-        
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .feature-card {
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            border: 2px solid #667eea;
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        
-        .feature-card:hover {
-            transform: scale(1.05);
-        }
-        
-        .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-        
-        .info-box {
-            background: #e3f2fd;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #666;
-            font-size: 0.9em;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artifit | The Fit Clinic</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    .section { display: none; }
+    .section.active { display: block; }
+    input[type="range"] { -webkit-appearance: none; }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .nav-btn.active { background: #f3f4f6; }
+    .nav-btn.active .nav-icon { filter: none; opacity: 1; }
+    .nav-btn.active .nav-label { color: #111827; font-weight: 500; }
+    .nav-icon { filter: grayscale(1); opacity: 0.6; }
+    .resource-card:hover { transform: scale(1.02); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <h1>🏋️ Artifit</h1>
-        <p class="subtitle">All in one client resource for The Fit Clinic</p>
-        
-        <div class="info-box">
-            <strong>Welcome!</strong> This is your interactive client portal for The Fit Clinic. 
-            Explore the features below to get started on your fitness journey.
+<body class="bg-gray-50 min-h-screen">
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-gray-900 to-gray-800 text-white p-4 sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div onclick="showSection('home')" class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center font-bold text-lg cursor-pointer hover:scale-105 transition-transform">
+          A
         </div>
-        
-        <div class="interactive-section">
-            <h2 style="text-align: center; color: #667eea; margin-bottom: 20px;">Workout Counter</h2>
-            <div class="counter" id="counter">0</div>
-            <div style="text-align: center;">
-                <button class="btn" onclick="increment()">Add Workout +</button>
-                <button class="btn" onclick="decrement()">Remove Workout -</button>
-                <button class="btn" onclick="reset()">Reset</button>
-            </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">Artifit</h1>
+          <p class="text-xs text-gray-400">by The Fit Clinic</p>
         </div>
-        
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h3>📊 Progress Tracking</h3>
-                <p>Monitor your fitness journey with detailed analytics</p>
-            </div>
-            <div class="feature-card">
-                <h3>💪 Workout Plans</h3>
-                <p>Customized exercises tailored to your goals</p>
-            </div>
-            <div class="feature-card">
-                <h3>🥗 Nutrition Guides</h3>
-                <p>Meal plans designed for optimal performance</p>
-            </div>
-            <div class="feature-card">
-                <h3>👥 Community</h3>
-                <p>Connect with fellow fitness enthusiasts</p>
-            </div>
-        </div>
-        
-        <footer>
-            <p>© 2026 The Fit Clinic - Artifit Portal</p>
-            <p>Hosted on GitHub Pages at <strong>artifit.fitclinic.io</strong></p>
-        </footer>
+      </div>
+      <button id="backBtn" onclick="showSection('home')" class="text-sm text-gray-400 hover:text-white transition-colors hidden">
+        ← Back
+      </button>
     </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="max-w-4xl mx-auto p-4 pb-28">
     
-    <script>
-        let count = 0;
-        
-        function updateCounter() {
-            document.getElementById('counter').textContent = count;
-            // Store in localStorage for persistence
-            localStorage.setItem('workoutCount', count);
-        }
-        
-        function increment() {
-            count++;
-            updateCounter();
-            animateCounter();
-        }
-        
-        function decrement() {
-            if (count > 0) {
-                count--;
-                updateCounter();
-                animateCounter();
-            }
-        }
-        
-        function reset() {
-            count = 0;
-            updateCounter();
-            animateCounter();
-        }
-        
-        function animateCounter() {
-            const counterEl = document.getElementById('counter');
-            counterEl.style.transform = 'scale(1.2)';
-            setTimeout(() => {
-                counterEl.style.transform = 'scale(1)';
-            }, 200);
-        }
-        
-        // Load saved count on page load
-        window.onload = function() {
-            const savedCount = localStorage.getItem('workoutCount');
-            if (savedCount) {
-                count = parseInt(savedCount, 10);
-                updateCounter();
-            }
-        };
-        
-        // Add smooth transition for counter
-        document.getElementById('counter').style.transition = 'transform 0.2s ease';
-    </script>
+    <!-- HOME -->
+    <div id="section-home" class="section active">
+      <div class="space-y-6">
+        <div class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-8 text-white text-center">
+          <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center font-bold text-3xl mx-auto mb-4 shadow-lg">A</div>
+          <h2 class="text-3xl font-bold mb-3">Welcome to Artifit</h2>
+          <p class="text-gray-300 text-lg max-w-md mx-auto">Your pocket guide to everything at The Fit Clinic</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-xl font-bold mb-3 text-gray-800">What is Artifit?</h3>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            <strong>Artifit</strong> is your all-in-one fitness resource — a quick-reference guide built just for Fit Clinic clients. Whether you're wondering what your InBody numbers mean, need a list of free foods, or want to remember how RPE works, it's all here in one place.
+          </p>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Think of it as your <strong>fitness cheat sheet</strong> — the answers to your most common questions, always in your pocket.
+          </p>
+          <div class="bg-purple-50 rounded-xl p-4">
+            <p class="text-purple-800 text-sm">💡 <strong>Pro tip:</strong> Bookmark this page on your phone for instant access anytime!</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold mb-4 text-gray-800">Explore Resources</h3>
+          <div class="grid grid-cols-2 gap-3">
+            <button onclick="showSection('inbody')" class="resource-card bg-white rounded-2xl p-5 text-left shadow-sm transition-all border-2 border-transparent hover:border-gray-200">
+              <div class="text-3xl mb-3">📊</div>
+              <div class="font-bold text-gray-800 mb-1">InBody Decoded</div>
+              <div class="text-xs text-gray-500">Understand your body composition scan</div>
+            </button>
+            <button onclick="showSection('rpe')" class="resource-card bg-white rounded-2xl p-5 text-left shadow-sm transition-all border-2 border-transparent hover:border-gray-200">
+              <div class="text-3xl mb-3">💪</div>
+              <div class="font-bold text-gray-800 mb-1">RPE Guide</div>
+              <div class="text-xs text-gray-500">Master your workout intensity</div>
+            </button>
+            <button onclick="showSection('exercises')" class="resource-card bg-white rounded-2xl p-5 text-left shadow-sm transition-all border-2 border-transparent hover:border-gray-200">
+              <div class="text-3xl mb-3">🏋️</div>
+              <div class="font-bold text-gray-800 mb-1">Exercise Library</div>
+              <div class="text-xs text-gray-500">Browse exercises by muscle group</div>
+            </button>
+            <button onclick="showSection('freefoods')" class="resource-card bg-white rounded-2xl p-5 text-left shadow-sm transition-all border-2 border-transparent hover:border-gray-200">
+              <div class="text-3xl mb-3">🥗</div>
+              <div class="font-bold text-gray-800 mb-1">Free Foods</div>
+              <div class="text-xs text-gray-500">Eat these without tracking</div>
+            </button>
+            <button onclick="showSection('hunger')" class="resource-card bg-white rounded-2xl p-5 text-left shadow-sm transition-all border-2 border-transparent hover:border-gray-200">
+              <div class="text-3xl mb-3">🍽️</div>
+              <div class="font-bold text-gray-800 mb-1">Hunger Solutions</div>
+              <div class="text-xs text-gray-500">Beat cravings the smart way</div>
+            </button>
+            <button onclick="showSection('nutrition')" class="resource-card bg-white rounded-2xl p-5 text-left shadow-sm transition-all border-2 border-transparent hover:border-gray-200">
+              <div class="text-3xl mb-3">📋</div>
+              <div class="font-bold text-gray-800 mb-1">Nutrition Plans</div>
+              <div class="text-xs text-gray-500">Find the right approach for you</div>
+            </button>
+            <button onclick="showSection('hydration')" class="resource-card bg-white rounded-2xl p-5 text-left shadow-sm transition-all border-2 border-transparent hover:border-gray-200">
+              <div class="text-3xl mb-3">💧</div>
+              <div class="font-bold text-gray-800 mb-1">Hydration Tips</div>
+              <div class="text-xs text-gray-500">Hit your water goals daily</div>
+            </button>
+            <button onclick="showSection('progress')" class="resource-card bg-white rounded-2xl p-5 text-left shadow-sm transition-all border-2 border-transparent hover:border-gray-200">
+              <div class="text-3xl mb-3">📈</div>
+              <div class="font-bold text-gray-800 mb-1">Progress Tracking</div>
+              <div class="text-xs text-gray-500">How we measure your success</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center text-gray-400 text-sm py-4">
+          <p>Made with ❤️ by The Fit Clinic</p>
+          <p class="text-xs mt-1">San Jose & Campbell, CA</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- INBODY -->
+    <div id="section-inbody" class="section">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">📊</span>
+        <h2 class="text-2xl font-bold text-gray-800">InBody Decoded</h2>
+      </div>
+      <div class="space-y-6">
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-xl font-bold mb-4 text-gray-800">Understanding Your Water Balance</h3>
+          <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-blue-50 rounded-xl p-4 text-center">
+              <div class="text-3xl mb-2">💧</div>
+              <div class="font-bold text-blue-700">ICW</div>
+              <div class="text-sm text-gray-600">Intracellular Water</div>
+              <div class="text-xs text-gray-500 mt-2">Water inside your cells. More muscle = more ICW</div>
+            </div>
+            <div class="bg-purple-50 rounded-xl p-4 text-center">
+              <div class="text-3xl mb-2">🌊</div>
+              <div class="font-bold text-purple-700">ECW</div>
+              <div class="text-sm text-gray-600">Extracellular Water</div>
+              <div class="text-xs text-gray-500 mt-2">Water outside cells. High ECW may indicate inflammation</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-4 text-center">
+              <div class="text-3xl mb-2">⚖️</div>
+              <div class="font-bold text-green-700">TBW</div>
+              <div class="text-sm text-gray-600">Total Body Water</div>
+              <div class="text-xs text-gray-500 mt-2">ICW + ECW combined. 50-65% of body weight</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-lg font-bold mb-4 text-gray-800">ECW/TBW Ratio Checker</h3>
+          <p class="text-sm text-gray-600 mb-4">Slide to see what your ratio means</p>
+          <input type="range" id="ecwSlider" min="0.34" max="0.42" step="0.01" value="0.37" 
+            class="w-full h-3 rounded-lg cursor-pointer"
+            style="background: linear-gradient(to right, #10B981 0%, #10B981 25%, #F59E0B 25%, #F59E0B 62.5%, #EF4444 62.5%, #EF4444 100%)"
+            oninput="updateEcwDisplay(this.value)">
+          <div class="flex justify-between text-xs text-gray-500 mt-1">
+            <span>0.34</span><span>0.36</span><span>0.39</span><span>0.42</span>
+          </div>
+          <div id="ecwResult" class="mt-4 p-4 rounded-xl text-center bg-yellow-100">
+            <div class="text-2xl font-bold">0.37</div>
+            <div class="font-medium text-yellow-700">✓ Normal Range</div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-lg font-bold mb-4 text-gray-800">How to Improve Your Numbers</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-blue-50 rounded-xl p-4">
+              <div class="font-bold text-blue-700 mb-2">↑ Increase ICW</div>
+              <ul class="text-sm text-gray-600 space-y-1">
+                <li>• Strength training</li>
+                <li>• Adequate protein intake</li>
+                <li>• Proper hydration + electrolytes</li>
+              </ul>
+            </div>
+            <div class="bg-purple-50 rounded-xl p-4">
+              <div class="font-bold text-purple-700 mb-2">↓ Lower ECW</div>
+              <ul class="text-sm text-gray-600 space-y-1">
+                <li>• Reduce processed foods</li>
+                <li>• Better sleep & stress management</li>
+                <li>• Light cardio & lymphatic movement</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RPE -->
+    <div id="section-rpe" class="section">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">💪</span>
+        <h2 class="text-2xl font-bold text-gray-800">RPE Guide</h2>
+      </div>
+      <div class="space-y-6">
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-xl font-bold mb-2 text-gray-800">Rate of Perceived Exertion</h3>
+          <p class="text-gray-600 mb-6">RPE measures how hard a set feels. Use it to dial in the right intensity.</p>
+          <div class="space-y-3">
+            <div class="flex items-center gap-4 p-4 rounded-xl" style="background-color: #DC262615">
+              <div class="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl" style="background-color: #DC2626">10</div>
+              <div class="flex-1">
+                <div class="font-bold text-gray-800">Maximum Effort</div>
+                <div class="text-sm text-gray-600">Could not do another rep</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">Reps in Tank</div>
+                <div class="font-bold text-lg">0</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 rounded-xl" style="background-color: #EA580C15">
+              <div class="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl" style="background-color: #EA580C">9</div>
+              <div class="flex-1">
+                <div class="font-bold text-gray-800">Very Hard</div>
+                <div class="text-sm text-gray-600">Maybe 1 more rep possible</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">Reps in Tank</div>
+                <div class="font-bold text-lg">1</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 rounded-xl" style="background-color: #F59E0B15">
+              <div class="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl" style="background-color: #F59E0B">8</div>
+              <div class="flex-1">
+                <div class="font-bold text-gray-800">Hard</div>
+                <div class="text-sm text-gray-600">Could do 2 more reps</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">Reps in Tank</div>
+                <div class="font-bold text-lg">2</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 rounded-xl" style="background-color: #84CC1615">
+              <div class="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl" style="background-color: #84CC16">7</div>
+              <div class="flex-1">
+                <div class="font-bold text-gray-800">Challenging</div>
+                <div class="text-sm text-gray-600">Could do 3 more reps</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">Reps in Tank</div>
+                <div class="font-bold text-lg">3</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 rounded-xl" style="background-color: #22C55E15">
+              <div class="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl" style="background-color: #22C55E">6</div>
+              <div class="flex-1">
+                <div class="font-bold text-gray-800">Moderate</div>
+                <div class="text-sm text-gray-600">Could do 4+ more reps</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">Reps in Tank</div>
+                <div class="font-bold text-lg">4+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl p-6 text-white">
+          <h3 class="text-lg font-bold mb-2">Pro Tip</h3>
+          <p class="text-white/90">If your program says "10 reps @ RPE 8" — choose a weight where you could do 12 reps max. As you get stronger, increase the weight to stay at RPE 8!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISES -->
+    <div id="section-exercises" class="section">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">🏋️</span>
+        <h2 class="text-2xl font-bold text-gray-800">Exercise Library</h2>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <div id="muscleFilters" class="flex flex-wrap gap-2 mb-6"></div>
+        <div id="exerciseGrid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+      </div>
+    </div>
+
+    <!-- FREE FOODS -->
+    <div id="section-freefoods" class="section">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">🥗</span>
+        <h2 class="text-2xl font-bold text-gray-800">Free Foods</h2>
+      </div>
+      <div class="space-y-6">
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-xl font-bold mb-2 text-gray-800">Unlimited Foods</h3>
+          <p class="text-gray-600 mb-4">Eat as much as you want — these won't affect your macros!</p>
+          <div class="flex flex-wrap gap-2" id="unlimitedFoods"></div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-xl font-bold mb-2 text-gray-800">Limited Foods</h3>
+          <p class="text-gray-600 mb-4">1-2 servings per day</p>
+          <div class="flex flex-wrap gap-2" id="limitedFoods"></div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-xl font-bold mb-2 text-gray-800">Approved Condiments</h3>
+          <p class="text-gray-600 mb-4">Flavor without the guilt</p>
+          <div class="flex flex-wrap gap-2" id="condiments"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUNGER -->
+    <div id="section-hunger" class="section">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">🍽️</span>
+        <h2 class="text-2xl font-bold text-gray-800">Hunger Solutions</h2>
+      </div>
+      <div class="space-y-6">
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-xl font-bold mb-4 text-gray-800">Craving Solutions</h3>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-orange-50 rounded-xl p-5">
+              <div class="text-2xl mb-3">🧂</div>
+              <h4 class="font-bold text-orange-800 mb-3">Salty Cravings</h4>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-center gap-2"><span class="text-orange-500">•</span> Pickles or pickled vegetables</li>
+                <li class="flex items-center gap-2"><span class="text-orange-500">•</span> Cucumbers with hot sauce</li>
+                <li class="flex items-center gap-2"><span class="text-orange-500">•</span> Sauerkraut or Kimchi</li>
+                <li class="flex items-center gap-2"><span class="text-orange-500">•</span> Grilled seaweed snacks</li>
+              </ul>
+            </div>
+            <div class="bg-pink-50 rounded-xl p-5">
+              <div class="text-2xl mb-3">🍬</div>
+              <h4 class="font-bold text-pink-800 mb-3">Sweet Cravings</h4>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-center gap-2"><span class="text-pink-500">•</span> Sugar-free Jello (1/day)</li>
+                <li class="flex items-center gap-2"><span class="text-pink-500">•</span> Sugar-free Popsicle (1/day)</li>
+                <li class="flex items-center gap-2"><span class="text-pink-500">•</span> 90% Dark Chocolate (⅓ bar)</li>
+                <li class="flex items-center gap-2"><span class="text-pink-500">•</span> Halo Top Fruit Bar (1/day)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-lg font-bold mb-4 text-gray-800">Quick Hunger Fix Salad</h3>
+          <div class="bg-green-50 rounded-xl p-5">
+            <div class="grid grid-cols-5 gap-2 text-center text-sm">
+              <div class="bg-white rounded-lg p-3">🥬<br/>Spinach</div>
+              <div class="bg-white rounded-lg p-3">🥒<br/>Cucumber</div>
+              <div class="bg-white rounded-lg p-3">🍄<br/>Mushrooms</div>
+              <div class="bg-white rounded-lg p-3">🍅<br/>Tomatoes</div>
+              <div class="bg-white rounded-lg p-3">🫒<br/>FF Balsamic</div>
+            </div>
+            <p class="text-center text-green-700 font-medium mt-4">Unlimited • Zero guilt • Super filling</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NUTRITION -->
+    <div id="section-nutrition" class="section">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">📋</span>
+        <h2 class="text-2xl font-bold text-gray-800">Nutrition Plans</h2>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <h3 class="text-xl font-bold mb-6 text-gray-800">Find Your Plan Style</h3>
+        <div class="space-y-4">
+          <div class="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-colors">
+            <div class="flex items-start gap-4">
+              <div class="text-3xl">📱</div>
+              <div>
+                <h4 class="font-bold text-gray-800">Macro Tracking</h4>
+                <p class="text-sm text-gray-600 mt-1">Hit your daily protein, carbs, and fats using MyFitnessPal or similar app</p>
+                <p class="text-xs text-pink-600 font-medium mt-2">Best for: Flexible eaters who like variety</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-colors">
+            <div class="flex items-start gap-4">
+              <div class="text-3xl">📋</div>
+              <div>
+                <h4 class="font-bold text-gray-800">Flexible Dieting Chart</h4>
+                <p class="text-sm text-gray-600 mt-1">Structured meal options with built-in flexibility — choose from approved foods</p>
+                <p class="text-xs text-pink-600 font-medium mt-2">Best for: People who want guidance with some freedom</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-colors">
+            <div class="flex items-start gap-4">
+              <div class="text-3xl">🍽️</div>
+              <div>
+                <h4 class="font-bold text-gray-800">Set Meal Plan</h4>
+                <p class="text-sm text-gray-600 mt-1">Specific meals designed for your goals — no decisions needed</p>
+                <p class="text-xs text-pink-600 font-medium mt-2">Best for: Those who prefer clear direction</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-colors">
+            <div class="flex items-start gap-4">
+              <div class="text-3xl">📦</div>
+              <div>
+                <h4 class="font-bold text-gray-800">Meal Prep Coordination</h4>
+                <p class="text-sm text-gray-600 mt-1">We help you order from trusted vendors — often cheaper than shipping yourself</p>
+                <p class="text-xs text-pink-600 font-medium mt-2">Best for: Busy schedules, minimal cooking</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HYDRATION -->
+    <div id="section-hydration" class="section">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">💧</span>
+        <h2 class="text-2xl font-bold text-gray-800">Hydration Tips</h2>
+      </div>
+      <div class="space-y-6">
+        <div class="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl p-6 text-white">
+          <h3 class="text-xl font-bold mb-4">Daily Water Goal Tips</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-white/20 rounded-xl p-4">
+              <div class="font-bold mb-2">Split It Up</div>
+              <p class="text-sm text-white/90">24oz morning • 24oz afternoon • 24oz evening</p>
+            </div>
+            <div class="bg-white/20 rounded-xl p-4">
+              <div class="font-bold mb-2">Flavor It</div>
+              <p class="text-sm text-white/90">Mio, Crystal Light, lemon, or fruit infusions</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-lg font-bold mb-4 text-gray-800">Why Hydration Matters</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div class="bg-cyan-50 rounded-xl p-4">
+              <div class="text-2xl mb-2">💪</div>
+              <div class="text-sm font-medium text-gray-700">Muscle Function</div>
+            </div>
+            <div class="bg-cyan-50 rounded-xl p-4">
+              <div class="text-2xl mb-2">🧠</div>
+              <div class="text-sm font-medium text-gray-700">Mental Clarity</div>
+            </div>
+            <div class="bg-cyan-50 rounded-xl p-4">
+              <div class="text-2xl mb-2">⚡</div>
+              <div class="text-sm font-medium text-gray-700">Energy Levels</div>
+            </div>
+            <div class="bg-cyan-50 rounded-xl p-4">
+              <div class="text-2xl mb-2">📊</div>
+              <div class="text-sm font-medium text-gray-700">Accurate InBody</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div id="section-progress" class="section">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">📈</span>
+        <h2 class="text-2xl font-bold text-gray-800">Progress Tracking</h2>
+      </div>
+      <div class="space-y-6">
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 class="text-xl font-bold mb-4 text-gray-800">What We Track</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="flex items-center gap-4 bg-gray-50 rounded-xl p-4">
+              <div class="text-2xl">📸</div>
+              <div>
+                <div class="font-bold text-gray-800">Progress Photos</div>
+                <div class="text-sm text-gray-500">Every 2 weeks</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 bg-gray-50 rounded-xl p-4">
+              <div class="text-2xl">📏</div>
+              <div>
+                <div class="font-bold text-gray-800">Measurements</div>
+                <div class="text-sm text-gray-500">Every 2 weeks</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 bg-gray-50 rounded-xl p-4">
+              <div class="text-2xl">⚖️</div>
+              <div>
+                <div class="font-bold text-gray-800">Daily Weigh-ins</div>
+                <div class="text-sm text-gray-500">Daily (you)</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 bg-gray-50 rounded-xl p-4">
+              <div class="text-2xl">📊</div>
+              <div>
+                <div class="font-bold text-gray-800">InBody Scans</div>
+                <div class="text-sm text-gray-500">Every 3 months</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 bg-gray-50 rounded-xl p-4">
+              <div class="text-2xl">💪</div>
+              <div>
+                <div class="font-bold text-gray-800">Strength Progress</div>
+                <div class="text-sm text-gray-500">By request</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 bg-gray-50 rounded-xl p-4">
+              <div class="text-2xl">🏃</div>
+              <div>
+                <div class="font-bold text-gray-800">Endurance Benchmarks</div>
+                <div class="text-sm text-gray-500">If it's a focus</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-lime-50 rounded-2xl p-6">
+          <h3 class="text-lg font-bold mb-2 text-lime-800">🔒 Your Privacy</h3>
+          <p class="text-gray-700">Progress photos are <strong>only visible to Mike and Nick</strong>. We never share them without your explicit approval. Even if you choose not to share, we encourage you to take them privately — you'll thank yourself later!</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-2 z-50 shadow-lg">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex justify-around">
+        <button onclick="showSection('home')" class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all active" data-section="home">
+          <span class="nav-icon text-xl">🏠</span>
+          <span class="nav-label text-xs mt-1 text-gray-500">Home</span>
+        </button>
+        <button onclick="showSection('inbody')" class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all" data-section="inbody">
+          <span class="nav-icon text-xl">📊</span>
+          <span class="nav-label text-xs mt-1 text-gray-500">InBody</span>
+        </button>
+        <button onclick="showSection('rpe')" class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all" data-section="rpe">
+          <span class="nav-icon text-xl">💪</span>
+          <span class="nav-label text-xs mt-1 text-gray-500">RPE</span>
+        </button>
+        <button onclick="showSection('exercises')" class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all" data-section="exercises">
+          <span class="nav-icon text-xl">🏋️</span>
+          <span class="nav-label text-xs mt-1 text-gray-500">Exercises</span>
+        </button>
+        <button onclick="showSection('freefoods')" class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all" data-section="freefoods">
+          <span class="nav-icon text-xl">🥗</span>
+          <span class="nav-label text-xs mt-1 text-gray-500">Foods</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    // Data
+    const exerciseData = {
+      "Chest": ["Bench Press", "Incline Bench Press", "DB Bench Press", "Dumbbell Flyes", "Cable Fly", "Cable Crossover", "Floor Press", "Decline Bench Press"],
+      "Back": ["Lat Pull-downs", "Seated Rows", "Pull-ups", "Single Arm DB Rows", "Face Pulls", "Straight Arm Pull-downs", "Inverted Rows", "V-Bar Pull-downs"],
+      "Shoulders": ["Military Press", "DB Shoulder Press", "Lateral Cable Raise", "Front Raise", "Arnold Press", "Rear Delt Flyes", "Landmine Press"],
+      "Biceps": ["Dumbbell Curls", "EZ Bar Curls", "Hammer Curls", "Preacher Curls", "Cable Curls", "Spider Curls", "Zottman Curls"],
+      "Triceps": ["Tricep Pulldown", "Skull Crushers", "Rope Push-down", "Overhead Extension", "DB Kickbacks", "Cable Kick Back"],
+      "Quads": ["Barbell Squats", "Leg Press", "Hack Squat", "Leg Extensions", "Bulgarian Split Squats", "Front Squats"],
+      "Glutes": ["Hip Thrusts", "Dumbbell Lunges", "Kettlebell Swings", "Step-ups", "Single Leg Hip Thrust", "Curtsy Lunge"],
+      "Hamstrings": ["Romanian Deadlifts", "Lying Leg Curl", "Seated Leg Curl", "Nordic Curls", "Single Leg RDL"],
+      "Core": ["Planks", "Dead Bugs", "Russian Twists", "Leg Raises", "Hollow Holds", "Cable Crunches", "V-ups"]
+    };
+
+    const freeFoods = {
+      unlimited: ["Spinach", "Arugula", "Asparagus", "Green Beans", "Broccoli", "Brussels Sprouts", "Cabbage", "Celery", "Cucumber", "Kale", "Mushrooms", "Pickles", "Sauerkraut", "Lettuce", "Chard"],
+      limited: ["Cauliflower", "Bell Peppers", "Tomatoes", "Onions", "Zucchini", "Eggplant", "Snow Peas", "Artichoke"],
+      condiments: ["Sriracha", "Hot Sauce", "Mustard", "Salsa", "Low-Sodium Soy Sauce", "Lemon Juice", "Vinegar", "Sugar-free BBQ", "Walden Farms Dressings"]
+    };
+
+    let selectedMuscle = 'Chest';
+
+    // Navigation
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById('section-' + sectionId).classList.add('active');
+      
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.section === sectionId) btn.classList.add('active');
+      });
+
+      document.getElementById('backBtn').classList.toggle('hidden', sectionId === 'home');
+      window.scrollTo(0, 0);
+    }
+
+    // ECW Slider
+    function updateEcwDisplay(value) {
+      const v = parseFloat(value);
+      const result = document.getElementById('ecwResult');
+      let bg, textColor, text;
+      
+      if (v < 0.36) {
+        bg = 'bg-green-100'; textColor = 'text-green-700'; text = '🏆 Athletic Range';
+      } else if (v <= 0.39) {
+        bg = 'bg-yellow-100'; textColor = 'text-yellow-700'; text = '✓ Normal Range';
+      } else {
+        bg = 'bg-red-100'; textColor = 'text-red-700'; text = '⚠️ May indicate inflammation';
+      }
+      
+      result.className = 'mt-4 p-4 rounded-xl text-center ' + bg;
+      result.innerHTML = `<div class="text-2xl font-bold">${v.toFixed(2)}</div><div class="font-medium ${textColor}">${text}</div>`;
+    }
+
+    // Exercise filters
+    function renderExercises() {
+      const filtersEl = document.getElementById('muscleFilters');
+      const gridEl = document.getElementById('exerciseGrid');
+      
+      filtersEl.innerHTML = Object.keys(exerciseData).map(muscle => 
+        `<button onclick="selectMuscle('${muscle}')" class="muscle-btn px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedMuscle === muscle ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}">${muscle}</button>`
+      ).join('');
+      
+      gridEl.innerHTML = exerciseData[selectedMuscle].map(ex => 
+        `<div class="bg-purple-50 rounded-xl p-4 text-center hover:bg-purple-100 transition-colors"><div class="text-2xl mb-2">🏋️</div><div class="text-sm font-medium text-gray-800">${ex}</div></div>`
+      ).join('');
+    }
+
+    function selectMuscle(muscle) {
+      selectedMuscle = muscle;
+      renderExercises();
+    }
+
+    // Free foods
+    function renderFreeFoods() {
+      document.getElementById('unlimitedFoods').innerHTML = freeFoods.unlimited.map(f => 
+        `<span class="bg-green-100 text-green-800 px-3 py-2 rounded-full text-sm font-medium">✓ ${f}</span>`
+      ).join('');
+      
+      document.getElementById('limitedFoods').innerHTML = freeFoods.limited.map(f => 
+        `<span class="bg-yellow-100 text-yellow-800 px-3 py-2 rounded-full text-sm font-medium">${f}</span>`
+      ).join('');
+      
+      document.getElementById('condiments').innerHTML = freeFoods.condiments.map(f => 
+        `<span class="bg-blue-100 text-blue-800 px-3 py-2 rounded-full text-sm font-medium">${f}</span>`
+      ).join('');
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      renderExercises();
+      renderFreeFoods();
+    });
+  </script>
 </body>
 </html>
