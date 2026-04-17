@@ -18,3 +18,8 @@ Thumbs.db
 *.tmp
 *.bak
 *.log
+
+# Local environment / deployment files
+.env.local
+.vercel/
+deployment-url.txtvercel
